@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pizzafrontend
+  labels:
+    app: web
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: pizzafrontend
+    spec:
+      containers:
+      - name: pizzafrontend
+        image: robcamer/pizzafrontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://*:80
+        - name: backendUrl
+          value: http://pizzabackend
+  selector:
+    matchLabels:
+      app: pizzafrontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pizzafrontend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: pizzafrontend

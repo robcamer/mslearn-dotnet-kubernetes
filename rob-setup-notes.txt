@@ -1,0 +1,39 @@
+Kind: https://kind.sigs.k8s.io/
+
+WSL: https://kind.sigs.k8s.io/docs/user/using-wsl2/
+
+Kind Quick Start: https://kind.sigs.k8s.io/docs/user/quick-start
+
+///export KUBECONFIG="$(kind get kubeconfig --name="kind")"
+
+Configuration options: kind – Configuration (k8s.io)
+
+/code/gh/robcamer/k8s-dotnet/kind/kind-example-config.yaml 
+
+Nginx Ingress Guide: Kubernetes Ingress with Nginx Example - Kubernetes Book (matthewpalmer.net)
+
+
+	1. Create a cluster and enable ingress-ready=true on the control plane node
+
+kind create cluster --config code/gh/robcamer/k8s-dotnet/kind/kind-example-config.yaml
+
+	2. Install nginx on Kind
+	
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+What it should look like:
+
+kubectl get pods -n ingress-nginx
+
+
+	3. Deploy contoso-pizza backend:
+
+kubectl apply -f mslearn-dotnet-kubernetes/backend-deploy-default.yaml
+
+	4. Deploy contoso-pizza frontend:
+
+kubectl apply -f mslearn-dotnet-kubernetes/frontend-deploy-default.yaml
+
+	5. Apply Ingress configuration
+
+kubectl apply -f mslearn-dotnet-kubernetes/frontend-configure-ingress-default.yaml
